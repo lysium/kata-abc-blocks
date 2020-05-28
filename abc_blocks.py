@@ -3,7 +3,7 @@ def can_make_word(word, blocks):
     def block_has_letter(block):
         letter1, letter2 = block
         return (letter1 in letters) or (letter2 in letters)
-    useful_blocks = filter(block_has_letter, blocks)
+    useful_blocks = [b for b in filter(block_has_letter, blocks)]
     def selected_blocks(letters, blocks, tried_blocks, started_with_blocks):
         if len(letters) == 0:
             return True
@@ -24,7 +24,7 @@ def can_make_word(word, blocks):
                        selected_blocks(letters, remaining_blocks, tried_blocks + [block], started_with_blocks)
             else:
                 return selected_blocks(letters, remaining_blocks, tried_blocks + [block], started_with_blocks)
-    return selected_blocks(letters, blocks, [], blocks)
+    return selected_blocks(letters, useful_blocks, [], blocks)
 
 
 def main():
