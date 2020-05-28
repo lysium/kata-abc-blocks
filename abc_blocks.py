@@ -24,7 +24,7 @@ def can_make_word(word, blocks):
                        selected_blocks(letters, remaining_blocks, tried_blocks + [block], started_with_blocks)
             else:
                 return selected_blocks(letters, remaining_blocks, tried_blocks + [block], started_with_blocks)
-    return selected_blocks(letters, useful_blocks, [], blocks)
+    return selected_blocks(letters, useful_blocks, [], useful_blocks)
 
 
 def main():
