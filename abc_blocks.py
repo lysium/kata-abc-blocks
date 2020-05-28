@@ -5,37 +5,28 @@ def can_make_word(word, blocks):
         return (letter1 in letters) or (letter2 in letters)
     useful_blocks = [block for block in filter(block_has_letter, blocks)]
     def selected_blocks(level, letters, blocks, tried_blocks, started_with_blocks):
-        def dbg_print(msg):
-            print("  "  * level, msg)
-        dbg_print(f"{level}: {letters}, {blocks} ------ {tried_blocks} -------- {started_with_blocks}")
-        if len(letters) == 0:
-            dbg_print("letters exhausted")
+        if len(letters) == 0:                      # dbg_print("letters exhausted")
             return True
         elif len(blocks) == 0:
-            if len(tried_blocks) == 0:
-                dbg_print("blocks and tried blocks exhausted")
+            if len(tried_blocks) == 0:             # dbg_print("blocks and tried blocks exhausted")
                 return False
-            elif set(tried_blocks) == set(started_with_blocks):
-                dbg_print("tried all blocks to no avail")
+            elif set(tried_blocks) == set(started_with_blocks):  # dbg_print("tried all blocks to no avail")
                 return False
-            else:
-                dbg_print(f"exhausted, reset to {tried_blocks}")
+            else:                                  # dbg_print(f"exhausted, reset to {tried_blocks}")
                 return selected_blocks(level, letters, tried_blocks, [], tried_blocks)
         else:
             block = blocks[0]
             remaining_blocks = blocks[1:]
             first_letter = letters[0]
             remaining_letters = letters[1:]
-            if first_letter in block:
-                dbg_print(f"For {first_letter}, trying to select block {block}")
-                did_work = selected_blocks(level + 1, remaining_letters, remaining_blocks + tried_blocks, [], remaining_blocks + tried_blocks)
-                if did_work:
+            if first_letter in block:             # dbg_print(f"For {first_letter}, trying to select block {block}")
+                if selected_blocks(level + 1, remaining_letters, remaining_blocks + tried_blocks, [],
+                                   remaining_blocks + tried_blocks):
                     return True
-                else:
-                    dbg_print(f"--did not work, trying without")
-                    return selected_blocks(level + 1, letters, remaining_blocks, tried_blocks + [block], started_with_blocks)
-            else:
-                dbg_print(f"For {first_letter}, skipping block {block} and trying next")
+                else:  # dbg_print(f"--did not work, trying without")
+                    return selected_blocks(level + 1, letters, remaining_blocks, tried_blocks + [block],
+                                           started_with_blocks)
+            else:      # dbg_print(f"For {first_letter}, skipping block {block} and trying next")
                 return selected_blocks(level, letters, remaining_blocks, tried_blocks + [block], started_with_blocks)
     return selected_blocks(0, letters, useful_blocks, [], useful_blocks)
 
