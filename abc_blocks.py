@@ -3,7 +3,7 @@ def can_make_word(word, blocks):
     def block_has_letter(block):
         letter1, letter2 = block
         return (letter1 in letters) or (letter2 in letters)
-    useful_blocks = [b for b in filter(block_has_letter, blocks)]
+    useful_blocks = [block for block in filter(block_has_letter, blocks)]
     def selected_blocks(level, letters, blocks, tried_blocks, started_with_blocks):
         def dbg_print(msg):
             print("  "  * level, msg)
